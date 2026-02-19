@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grell's Stuff</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    
+
+    <style>
+        *,
+        *::before,
+        ::after {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-gradient-start: #0F172A;
+            --bg-gradient-mid: #0B1F2A;
+            --bg-gradient-end: #070D1A;
+
+            --bg-page: #b5dbd3;
+            --bg-card: #13131A;
+            --bg-popup: #242430; 
+
+            --text-main: #F2E9E9;
+            --text-muted: #CFC6C6;
+
+            --accent-green: #69BC8E;
+            --accent-green-soft: rgba(105, 188, 142, 0.4);
+
+            --reminder-bg: #69BC8E;
+            --reminder-text: #f8f4f4;
+            --reminder-docked-bg: #5aa87c;
+            --reminder-docked-text: #f3eeee;
+
+            --accent-pink: #E83E56;
+            --accent-yellow: #F9AE30;
+
+            --snake-color: #69BC8E;
+            --apple-color: #c62828;
+
+            --column-size: 220px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: radial-gradient(circle at top,
+                    rgba(105, 188, 142, 0.08),
+                    transparent 40%),
+                linear-gradient(to bottom,
+                    var(--bg-gradient-start),
+                    var(--bg-gradient-mid),
+                    var(--bg-gradient-end));
+
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            position: relative;
+
+            color: var(--text-main);
+            padding: 28px;
+            margin: 0;
+            min-height: 100vh;
+            padding-bottom: 100px;
+
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        body.light-mode {
+            --bg-gradient-start: #e3e3e3;
+            --bg-gradient-mid: #c6c6c6;
+            --bg-gradient-end: #b9b7b7;
+
+            --bg-card: #ecebeb;
+            --bg-popup: #f4f4f4;
+
+            --text-main: #5b5555;
+            --text-muted: #7d7878;
+
+            --accent-green: #444444;
+            --accent-green-soft: #00000039;
+
+            --reminder-bg: #8f8f8f;
+            --reminder-text: #f8f7f7;
+            --reminder-docked-bg: #8f8f8f;
+            --reminder-docked-text: #f8f7f7;
+
+            --snake-color: #777575;
+            --apple-color: #3c3b3b;
+
+            --accent-yellow: #857e7e;
+            --accent-pink: #888888;
+        }
+
+        body:not(.light-mode) .capybara {
+            display: block;
+        }
+
+        html, body {
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+
+        header {
+            position: relative;
+            max-width: 1600px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        #search {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        #search::placeholder {
+            color: rgba(131, 131, 131, 0.45);
+        }
+
+        .search-container {
+            flex: 1 1 auto;
+            min-width: 200px;
+            max-width: 250px;
+            border-radius: 15px;
+            background-color: var(--bg-card);
+            border: 1.5px solid transparent;
+
+            background-image:
+                linear-gradient(var(--bg-card), var(--bg-card)),
+                linear-gradient(135deg, var(--accent-green), var(--accent-green-soft));
+
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+
+            padding: 10px 16px;
+            box-sizing: border-box;
+            transition: box-shadow 0.25s ease;
+        }
+
+        .search-wrapper {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .search-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+       
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 0 0 auto;
+        }
+
+        @media (max-width: 500px) {
+            header {
+                flex-wrap: wrap;
+            }
+        }
+
+         .left-header {
+           flex: 0 1 auto;
+           min-width: 50px;
+           max-width: 150px;
+           display: flex;
+           justify-content: center;
+        }
+
+        /* Snake Game Header */
+
+        #snakeGame {
+            flex: 1;
+            height: 50px;
+            background-color: var(--bg-card);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+
+        .snake-container {
+            width: auto;
+            max-width: 150px;
+            height: auto;
+        }
+        
+        .main {
+            margin-top: 0;
+            color: var(--accent-green);
+            text-align: left;
+            padding: 0;
+        }
+
+        .main h2 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .main h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main label {
+            color: var(--accent-green);
+        }
+
+
+        /* Container Grid */
+
+        .container {
+            padding-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(var(--column-size), 1fr));
+            /*4 columns*/
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Category Card */
+
+        .category {
+            position: relative;
+            border-radius: 15px;
+            background-color: var(--bg-card);
+            /* REAL solid background */
+            border: 1.5px solid transparent;
+            /* Gradient border */
+            background-image:
+                linear-gradient(var(--bg-card), var(--bg-card)),
+                linear-gradient(135deg, var(--accent-green), var(--accent-green-soft));
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+
+            color: var(--text-main);
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            max-width: 800px;
+
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: background 0.3s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .category::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 15px;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            background: linear-gradient(to bottom,
+                    var(--accent-green-soft),
+                    transparent 10%);
+            pointer-events: none;
+        }
+
+        .category:focus-visible {
+            outline: 2px solid var(--accent-green);
+            outline-offset: 2px;
+        }
+
+
+        /* Hover Effect */
+
+        .category:hover:not(:focus-within) {
+            transform: translateY(-4px);
+            box-shadow:
+                0 0 0 1px var(--accent-green-soft),
+                0 8px 24px var(--accent-green-soft);
+        }
+
+        .category:hover:not(:focus-within)::before {
+            opacity: 1;
+        }
+
+        /* Title Area */
+        .category-title {
+            position: relative;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .category-title::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 1.5px;
+
+            background: linear-gradient(to right,
+                    var(--accent-green),
+                    var(--accent-green-soft));
+        }
+
+        .category-title h3 {
+            margin: 0;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        /* Listed Itens */
+        .category ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 8px;
+
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .category ul::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .category ul::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .category ul::-webkit-scrollbar-thumb {
+            background-color: var(--accent-green-soft);
+            border-radius: 10px;
+        }
+
+        .category ul::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-green)
+        }
+
+        .category li {
+            margin: 8px 0;
+            color: var(--text-muted);
+            max-height: 250px;
+        }
+
+        .category a {
+            text-decoration: none;
+            color: var(--accent-yellow);
+            transition: color 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .category a:hover {
+            text-decoration: underline;
+            color: var(--accent-yellow);
+            padding-left: 6px;
+        }
+
+        .category textarea {
+            width: 100%;
+            height: 200px;
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: none;
+            resize: vertical;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .category textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .category.notes {
+            max-height: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .category.notes textarea {
+            max-height: 180px;
+            overflow-y: auto;
+            resize: vertical;
+        }
+
+        .icon-btn,
+        #themeToggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--accent-green);
+            background: var(--bg-card);
+            color: var(--accent-green);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn:hover {
+            transform: rotate(8deg);
+        }
+
+        .small-btn {
+            width: 21px;
+            height: 21px;
+            font-size: 14px;
+        }
+
+        /* POP-UPS */
+
+        .popup {
+            position: absolute;
+            top: 70px;
+            right: 28px;
+            width: 200px;
+
+            background: var(--bg-popup);
+            font-size: 0.85rem;
+            border-radius: 12px;
+            padding: 12px;
+
+            border: 1.5px solid transparent;
+            background-image:
+                linear-gradient(var(--bg-popup), var(--bg-popup)),
+                linear-gradient(135deg, var(--accent-green), var(--accent-green-soft));
+            background-origin: padding-box, border-box;
+            background-clip: padding-box, border-box;
+
+            display: none;
+            z-index: 1000;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .popup.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .popup ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .popup li {
+            margin: 4px 0;
+        }
+
+        .popup a {
+            text-decoration: none;
+            color: var(--accent-yellow);
+        }
+
+        .popup a:hover {
+            text-decoration: underline;
+        }
+
+        .reminder-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+
+            background: var(--reminder-bg);
+            color: var(--reminder-text);
+
+            padding: 18px 22px;
+            min-height: 70px;
+            width: 260px;
+
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+
+            font-size: 14px;
+            line-height: 1.4;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+
+            opacity: 0;
+            transition: all 0.5s ease cubic-bezier(.22, .68, .33, 1);
+
+            z-index: 9999;
+        }
+
+        .reminder-popup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .reminder-popup.centered {
+            animation: subtlePulse 3s ease-in-out infinite;
+        }
+
+        .reminder-popup.docked {
+            top: 18px;
+            right: 130px;
+            left: auto;
+
+            width: 200px;
+            padding: 10px 14px;
+            min-height: auto;
+
+            border-radius: 14px;
+            font-size: 12.5px;
+
+            transform: scale(1);
+            animation: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+            background: var(--reminder-docked-bg);
+            color: var(--reminder-docked-text);
+        }
+
+        .reminder-close {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .reminder-close:hover {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+        /* Animations - Reminders */
+
+        @keyframes subtlePulse {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.015);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+
+        #todoList {
+            margin-top: 10px;
+            display: none;
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        #todoList::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #todoList::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #todoList::-webkit-scrollbar-thumb {
+            background: var(--accent-green-soft);
+            border-radius: 10px;
+        }
+
+        #todoList::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-green);
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 6px 0;
+        }
+
+        .todo-item input[type="text"] {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--accent-green-soft);
+            color: var(--text-main);
+            width: 100%;
+            outline: none;
+        }
+
+        .todo-item input[type="text"].completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .todo-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            aspect-ratio: 1 / 1;
+            border-radius: 50%;
+            border: 1px solid var(--accent-green);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            flex-shrink: 0;
+
+            transition: transform 0.15s ease;
+        }
+
+        .todo-item input[type="checkbox"]:checked {
+            background: color-mix(in srgb, var(--accent-green) 70%, transparent);
+            transform: scale(1.15);
+        }
+
+        .todo-item input[type="checkbox"]:checked::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 8px;
+            border: solid var(--bg-card);
+            border-width: 0 2px 2px 0;
+            transform: translate(-50%, -60%) rotate(45deg) scale(1);
+            transition: transform 0.15s ease;
+            top: 50%;
+            left: 50%;
+        }
+
+        .delete-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-pink);
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+        }
+
+        .delete-btn:hover {
+            transform: scale(1.2);
+            opacity: 0.7;
+        }
+
+        #themeToggle:hover {
+            transform: rotate(20deg);
+        }
+
+        .capybara {
+            display: none;
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            z-index: 0; 
+
+            width: 90px;
+            height: 80px;
+
+            background-image: url("gifcapy.gif");
+            background-size: contain;
+            image-rendering: pixelated;
+            
+            animation:
+                moveAcross 120s linear infinite;
+        }
+
+        .capybara::after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            filter: blur(3px);
+        }
+
+        @keyframes moveAcross {
+            0% {
+                transform: translateX(-120px) scale(0.5) scaleX(1);
+            }
+        
+            45% {
+                transform: translateX(calc(100vw - 90px)) scale(0.5) scaleX(1);
+            }
+        
+            49% {
+                transform: translateX(calc(100vw + 120px)) scale(0.5) scaleX(1);
+            }
+        
+            50% {
+                transform: translateX(calc(100vw + 120px)) scale(0.5) scaleX(-1);
+            }
+        
+            95% {
+                transform: translateX(-120px) scale(0.5) scaleX(-1);
+            }
+        
+            99% {
+                transform: translateX(-240px) scale(0.5) scaleX(-1);
+            }
+        
+            100% {
+                transform: translateX(-240px) scale(0.5) scaleX(1);
+            }
+        }
+
+        .hearts {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.5);
+            width: 40px;
+            display: none;
+            image-rendering: pixelated;
+            pointer-events: none;
+        }
+
+        .hearts.show {
+            display: block;
+            animation: floatUp 2.5s ease forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(0) scale(0.5);
+            }
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px) scale(0.5);
+            }
+        }
+
+        .copyright {
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+
+            font-size: 12px;
+            color: var(--accent-green-soft);
+            
+            pointer-events: none; 
+            left: 50%;
+            transform: translateX(-50%);
+            right: auto;
+        }
+
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+
+
+        <div class="search-container">
+            <div class="search-wrapper">
+                <svg class="search-icon" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none" />
+                    <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" />
+                </svg>
+                <input id="search" type="text" placeholder="Search links...">
+            </div>
+        </div>
+
+        <canvas id="snakeGame"></canvas>
+
+        <div class="header-actions">
+            <button id="themeToggle" class="icon-btn">☀</button>
+            <button id="booksToggle" class="icon-btn">📚</button>
+            <button id="shopToggle" class="icon-btn">🛒</button>
+        </div>
+
+
+        <div id="shopPopup" class="popup">
+            <ul>
+                <li><a href="https://www.amazon.de/-/en/">Amazon DE</a></li>
+                <li><a href="https://www.amazon.de/-/en/">Amazon BR</a></li>
+                <li><a href="https://www.vinted.fi/">Vinted</a></li>
+            </ul>
+        </div>
+
+        <div id="bookPopup" class="popup">
+            <ul id="booksList"></ul>
+            <input id="newBookInput" type="text" placeholder="Add a book..." style="width: 100%; margin-top: 8px; padding: 6px; border-radius: 8px; border: 1px solid var(--accent-green); background: var(--bg-card); color: var(--text-main);" />
+        </div>
+
+    </header>
+
+    <div class="container">
+
+        <div class="category">
+            <div class="category-title">
+                <h3>TAMK</h3>
+            </div>
+            <ul>
+                <li><a href="https://moodle.tuni.fi/">Moodle</a></li>
+                <li><a href="https://peppi-student.tuni.fi">Pakki</a></li>
+                <li><a href="">Kela</a></li>
+                <li><a href="https://www.outlook.com">Outlook</a></li>
+                <li><a href="http://www.onedrive.com">OneDrive</a></li>
+                <li><a href="">KideApp</a></li>
+                <li><a href="https://www.yths.fi/en/frontpage/">FHSH - YTHS</a></li>
+                <li><a href="http://www.jobteaser.com">JobTeaser</a></li>
+                <li><a href="https://www.koppari.fi/tamk/?lang=en">Koppari</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>ENTERTAINMENT</h3>
+            </div>
+            <ul>
+                <li><a href="https://mubi.com/">MUBI</a></li>
+                <li><a href="https://www.netflix.com/browse">Netflix</a></li>
+                <li><a href="https://www.primevideo.com/">PrimeVideo</a></li>
+                <li><a href="https://www.disneyplus.com/pt-br/home">Disney+</a></li>
+                <li><a href="https://play.hbomax.com">HBOGo</a></li>
+                <li><a href="https://assista.itauculturalplay.com.br/Home">Itau Cultural</a></li>
+                <li><a href="https://www.kanopy.com/en/tuni/">Kanopy</a></li>
+                <li><a href="https://cineminhazumbacana.wordpress.com/outros/">Zumbacana</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>3D STUFF</h3>
+            </div>
+            <ul>
+                <li><a href="https://gumroad.com/">Gumroad</a></li>
+                <li><a href="https://polyhaven.com">PolyHaven</a></li>
+                <li><a href="https://www.mixamo.com/#/">Mixamo</a></li>
+                <li><a href="https://www.thebasemesh.com/model-library">The Base Mesh</a></li>
+                <li><a href="https://extensions.blender.org/add-ons/">Blender Add-ons</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>GAMEDEV STUFF</h3>
+            </div>
+            <ul>
+                <li><a href="https://editor.construct.net">Construct 3</a></li>
+                <li><a href="https://github.com/">GitHub</a></li>
+                <li><a href="https://color.adobe.com">Adobe Color</a></li>
+                <li><a href="https://orama-interactive.itch.io/pixelorama">Pixelorama</a></li>
+                <li><a href="https://quaternius.com/index.html">Quaternius Assets</a></li>
+                <li><a href="https://www.gdquest.com/tutorial/godot/">Godot Tutorials</a></li>
+                <li><a href="https://godotforums.org">Godot Forums</a></li>
+                <li><a href="https://www.rpgmakerweb.com">RPG Maker</a></li>
+                <li><a href="https://learn.unity.com/tutorial/start-learning-unity">Unity Learn</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>USEFULL STUFF</h3>
+            </div>
+            <ul>
+                <li><a href="https://www.dafont.com">Dafont</a></li>
+                <li><a href="https://trueref.io">TrueRef</a></li>
+                <li><a href="https://www.posemaniacs.com">PoseManiacs</a></li>
+                <li><a href="https://film-grab.com">FilmGrab</a></li>
+                <li><a href="https://animationscreencaps.com">Animation Screencaps</a></li>
+                <li><a href="https://www.mapcrunch.com/">MapCrunch</a></li>
+                <li><a href="https://characterdesignreferences.com/home">CharacterDesignRef</a></li>
+                <li><a href="https://www.ctrlpaint.com/library">CtrlPaint</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>MY STUFF</h3>
+            </div>
+            <ul>
+                <li><a href="https://www.akgrellmann.com/">Portfolio</a></li>
+                <li><a href="https://www.instagram.com/akgrellmann/">Instagram</a></li>
+                <li><a href="https://www.behance.net/akgrellmann/">Behance</a></li>
+                <li><a href="https://www.artstation.com/akgrellmann/">Artstation</a></li>
+                <li><a href="https://gmail.com">Gmail</a></li>
+                <li><a href="https://www.scribd.com/saved">Scribd</a></li>
+                <li><a href="https://www.pinterest.com/">Pinterest</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>COURSES</h3>
+            </div>
+            <ul>
+                <li><a href="https://www.domestika.org/">Domestika</a></li>
+                <li><a href="https://hotmart.com/pt-br/club/3dnarevo/products/6339847">Revo - 3D</a></li>
+                <li><a href="https://hotmart.com/pt-br/club/revocursos/products/3490417">Revo - 2D Animation</a></li>
+                <li><a href="https://courses.yellowbrick.co/">Yellowbrick - Animation</a></li>
+                <li><a href="https://schoolism.com/s/tutorial/library">Schoolism</a></li>
+                <li><a href="https://www.khanacademy.org/profile/me/courses">Khan Academy</a></li>
+                <li><a href="https://lospec.com/pixel-art-tutorials">Pixel School</a></li>
+                <li><a href="https://www.coursera.org/specializations/game-design-and-development">Coursera - Game
+                        Design</a></li>
+                <li><a href="https://cursos.aldeia.cc/">AldeiaCC</a></li>
+                <li><a
+                        href="https://hotmart.com/pt-br/club/omicronfotografia/products/367093?access_source=hub_home_product_card">Omicron</a>
+                </li>
+                <li><a href="https://courses.reallusion.com/">Reallusion Courses</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>NEWS</h3>
+            </div>
+            <ul>
+                <li><a href="https://www.nytimes.com/">NYTimes</a></li>
+                <li><a href="https://g1.globo.com/">G1</a></li>
+                <li><a href="https://edition.cnn.com/">CNN</a></li>
+                <li><a href="https://yle.news/">Yle</a></li>
+                <li><a href="https://www.aamulehti.fi/">Aamulehti</a></li>
+                <li><a href="https://www.folha.uol.com.br">Folha de S.Paulo</a></li>
+                <li><a href="https://tapahtumat.tampere.fi/en-FI">Events in Tampere</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>FINNISH PRACTICE</h3>
+            </div>
+            <ul>
+                <li><a href="https://langpractice.com/finnish/numbers/listening#1,0,10">Numbers</a></li>
+                <li><a href="https://www.duolingo.com/learn">Duolingo</a></li>
+                <li><a href="https://start-to-finnish-students.in.howspace.com/?path=%2Fwelcome">Start to Finnish
+                        Course</a></li>
+                <li><a href="https://infofinland.fi/en/work-and-enterprise">InfoFinland</a></li>
+                <li><a href="https://www.kielibuusti.fi/en/learn-finnish">Kielibuusti</a></li>
+                <li><a href="http://www.thefinnishteacher.com">Finnish Teacher Blog</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>ART NEWS</h3>
+            </div>
+            <ul>
+                <li><a href="https://williammur.substack.com/">Will Mur Substack</a></li>
+                <li><a href="https://www.blendernation.com/">BlenderNation</a></li>
+                <li><a href="https://blenderartists.org/?ref=bn">BlenderArtists</a></li>
+                <li><a href="https://www.newyorker.com">The New Yorker</a></li>
+                <li><a href="https://piaui.folha.uol.com.br/">Revista Piauí</a></li>
+                <li><a href="https://www1.folha.uol.com.br/ilustrada/">Folha Ilustrada</a></li>
+                <li><a href="https://www.termometrooscar.com">Termômetro Oscar</a></li>
+            </ul>
+        </div>
+
+        <div class="category">
+            <div class="category-title">
+                <h3>GAMES</h3>
+            </div>
+            <ul>
+                <li><a href="https://store.steampowered.com/">Steam</a></li>
+                <li><a href="https://www.blizzard.com/en-us/">Blizzard</a></li>
+                <li><a href="https://www.pathofexile.com/purchase">Path of Exile</a></li>
+                <li><a href="https://www.roblox.com/home">Roblox</a></li>
+                <li><a href="https://itch.io/">Itch.io</a></li>
+                <li><a href="https://www.construct.net/en/free-online-games">Construct Community</a></li>
+                <li><a href="https://store.epicgames.com/en-US">Epic Games</a></li>
+                <li><a href="https://quickdraw.withgoogle.com/">Quick,Draw!</a></li>
+                <li><a href="https://www.geoguessr.com">Geoguessr</a></li>
+                <li><a href="https://www.edclub.com/sportal/program-3.game">TypingClub</a></li>
+                <li><a href="https://cardgames.io/pyramidsolitaire/"> Pyramid Solitaire</a></li>
+                <li><a href="https://flexboxfroggy.com/#en">Flexbox Froggy</a></li>
+                <li><a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a></li>
+                <li><a href="https://guessthemovie.name">Guess The Movie</a></li>
+                <li><a href="https://moviesnake.io/">MovieSnake</a></li>
+
+            </ul>
+        </div>
+
+        <div class="category notes">
+            <div class="category-title">
+                <h3>NOTES</h3>
+                <button id="toggleTodo" class="icon-btn small-btn">+</button>
+            </div>
+
+            <textarea id="notes" placeholder="Write your notes here..."></textarea>
+
+            <div id="todoList"></div>
+        </div>
+
+        <div class="capybara">
+            <img src="heart.gif" class="hearts" />
+        </div>
+
+        <div class="copyright"> © A K Grellmann
+        </div>
+
+        
+
+        <script>
+
+           // search button - did in class:
+
+            const searchInput = document.querySelector('#search');
+
+            const items = document.querySelectorAll('.category li');
+
+            searchInput.addEventListener("input", () => {
+                let searchterm = searchInput.value.toLowerCase();
+                console.log(searchterm);
+                items.forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = text.includes(searchterm) ? "" : "none";
+                }); // we are looking through the collection of links; we are calling each individual link "item"; and then we are doing something for each item (link)
+            });
+
+            //this was the part that I put before and it is working:
+            document.querySelectorAll('.category a[href]').forEach(link => {
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+            });
+
+            //this is for the notes:
+            const textInput = document.querySelector("#notes");
+            const todoList = document.querySelector("#todoList");
+            const toggleBtn = document.querySelector("#toggleTodo");
+
+            // ------ LOAD TEXT ------
+
+            const savedText = localStorage.getItem("myNotesText");
+            if (savedText) textInput.value = savedText;
+            textInput.addEventListener("input", () => {
+                localStorage.setItem("myNotesText", textInput.value);
+            })
+
+            // ------ LOAD TODOS ------
+
+            const savedTodos = JSON.parse(localStorage.getItem("myTodos")) || [];
+            savedTodos.forEach(todo => createTodo(todo.text, todo.checked));
+            ensureEmptyTodo();
+
+            // ------ LOAD TODO LIST STATE ------
+            const todoOpen = localStorage.getItem("todoOpen") === "true";
+            todoList.style.display = todoOpen ? "block" : "none";
+            toggleBtn.textContent = todoOpen ? "-" : "+";
+
+            // ------ TOGGLE TODO LIST ------
+            toggleBtn.addEventListener("click", () => {
+                const isHidden = todoList.style.display === "none";
+                todoList.style.display = isHidden ? "block" : "none";
+                toggleBtn.textContent = isHidden ? "-" : "+";
+
+                // ------ SAVE TEXT ------
+
+                localStorage.setItem("todoOpen", isHidden);
+            });
+
+            // ------ CREATE TODO ------
+
+            function createTodo(text = "", checked = false, allowEmpty = false) {
+                if (!allowEmpty && text.trim() === "") return;
+
+                const div = document.createElement("div");
+                div.classList.add("todo-item");
+
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = checked;
+
+                const input = document.createElement("input");
+                input.type = "text";
+                input.value = text;
+                input.placeholder = "New task...";
+
+                if (checkbox.checked) {
+                    input.classList.add("completed");
+                }
+
+                checkbox.addEventListener("change", () => {
+                    if (checkbox.checked) {
+                        input.classList.add("completed");
+                    } else {
+                        input.classList.remove("completed");
+                    }
+                    saveTodos();
+                    ensureEmptyTodo();
+                });
+
+                // ------ delete item ------
+
+                const deleteBtn = document.createElement("button");
+                deleteBtn.textContent = "✖︎";
+                deleteBtn.classList.add("delete-btn");
+
+                deleteBtn.addEventListener("click", () => {
+                    div.remove();
+                    saveTodos()
+                    ensureEmptyTodo();
+                });
+
+                // ------ update changes ------
+
+                input.addEventListener("input", () => {
+                    saveTodos();
+                    ensureEmptyTodo();
+                });
+
+                div.appendChild(checkbox);
+                div.appendChild(input);
+                div.appendChild(deleteBtn);
+
+                todoList.appendChild(div);
+            }
+
+            // ------ ensure empty todo at end ------
+            function ensureEmptyTodo() {
+                const items = todoList.querySelectorAll(".todo-item input[type='text']");
+                if (items.length === 0 || items[items.length - 1].value.trim() !== "") {
+                    createTodo("", false, true);
+                }
+            }
+
+            // create new TODO when pressing Enter inside last input:
+
+            todoList.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    e.preventDefault();
+                    createTodo("", false);
+                    saveTodos();
+
+                    // focus on the new input
+                    const inputs = todoList.querySelectorAll("input[type='text']");
+                    inputs[inputs.length - 1].focus();
+                }
+            })
+
+            // ------ SAVE TODOS ------
+
+            function saveTodos() {
+                const todos = [];
+
+                document.querySelectorAll(".todo-item").forEach(item => {
+                    const checkbox = item.querySelector("input[type='checkbox']");
+                    const input = item.querySelector("input[type='text']");
+                    if (input.value.trim() !== "") { // do not save empty tasks //
+                        todos.push({
+                            text: input.value,
+                            checked: checkbox.checked
+                        });
+                    }
+                });
+
+                localStorage.setItem("myTodos", JSON.stringify(todos));
+            }
+
+            // ------ THEME TOGGLE ------
+
+            const themeBtn = document.querySelector("#themeToggle");
+
+            function applyTheme(theme) {
+                document.body.classList.toggle("light-mode", theme === "light");
+                themeBtn.textContent = theme === "light" ? "☾" : "☀";
+            }
+
+            // load saved theme
+
+            const savedTheme = localStorage.getItem("theme") || "dark";
+            applyTheme(savedTheme);
+
+            // toggle theme
+
+            themeBtn.addEventListener("click", () => {
+                const newTheme =
+                    document.body.classList.contains("light-mode") ? "dark" : "light";
+
+                localStorage.setItem("theme", newTheme);
+                applyTheme(newTheme);
+            });
+
+                        // ------ SHOP & BOOK POPUPS ------
+
+            const shopBtn = document.querySelector("#shopToggle");
+            const shopPopup = document.querySelector("#shopPopup");
+
+            const booksBtn = document.querySelector("#booksToggle");
+            const booksPopup = document.querySelector("#bookPopup");
+
+            // close all pop-ups
+            function closeAllPopups() {
+                shopPopup.classList.remove("show");
+                booksPopup.classList.remove("show");
+            }
+
+            // toggle SHOP
+            shopBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+            
+                const isOpen = shopPopup.classList.contains("show");
+            
+                closeAllPopups();
+            
+                if (!isOpen) {
+                    shopPopup.classList.add("show");
+                }
+            });
+
+            // toggle BOOKS
+            booksBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+            
+                const isOpen = booksPopup.classList.contains("show");
+            
+                closeAllPopups();
+            
+                if (!isOpen) {
+                    booksPopup.classList.add("show");
+                }
+            });
+
+            // close clicking outside
+            document.addEventListener("click", (e) => {
+                if (
+                    !shopPopup.contains(e.target) &&
+                    !booksPopup.contains(e.target) &&
+                    e.target !== shopBtn &&
+                    e.target !== booksBtn
+                ) {
+                    closeAllPopups();
+                }
+            });
+
+
+            // ------ BOOKS TRACKER ------
+
+            const booksList = document.querySelector("#booksList");
+            const newBookInput = document.querySelector("#newBookInput");
+
+            // load saved books:
+            let savedBooks = JSON.parse(localStorage.getItem("booksList")) || [];
+            renderBooks();
+
+            // add book on enter:
+            newBookInput.addEventListener("keydown", (e) => {
+                if (e.key === "Enter" && newBookInput.value.trim() !== "") {
+                    savedBooks.push(newBookInput.value.trim());
+                    localStorage.setItem("booksList", JSON.stringify(savedBooks));
+                    newBookInput.value = "";
+                    renderBooks();
+                }
+            });
+
+            // render books:
+            function renderBooks() {
+                booksList.innerHTML = "";
+                savedBooks.forEach((book, index) => {
+                    const li = document.createElement("li");
+                    li.style.margin = "4px 0";
+                    li.textContent = `${index + 1}. ${book}`;
+
+                    //delete button:
+                    const delBtn = document.createElement("button");
+                    delBtn.textContent = "✖︎";
+                    delBtn.style.marginLeft = "6px";
+                    delBtn.style.cursor = "pointer";
+                    delBtn.style.background = "transparent";
+                    delBtn.style.border = "none";
+                    delBtn.style.color = "var(--accent-pink)";
+                    delBtn.addEventListener("click", () => {
+                        savedBooks.splice(index, 1);
+                        localStorage.setItem("booksList", JSON.stringify(savedBooks));
+                        renderBooks();
+                    });
+
+                    li.appendChild(delBtn);
+                    booksList.appendChild(li);
+                });
+            }
+            
+            // ------ SELFCARE MESSAGES ------
+
+            const reminders = [
+                "Take a deep breath and relax your shoulders :)",
+                "How about drink some water?",
+                "Stand up and stretch your legs :)",
+                "Roll your shoulders and stretch your arms ^^",
+                "Move your neck gently, give it a break!",
+                "Shake out your hands and wrists :)",
+                "Check your posture, sit up straight!",
+                "Take a 1-minute walk around if possible :)"
+            ];
+
+            // ------ Function to show the pop-up selfcare messages ------
+
+            function getRandomReminder() {
+                return reminders[Math.floor(Math.random() * reminders.length)];
+            }
+
+            /* appears 2s after load */
+
+            window.addEventListener("load", () => {
+                setTimeout(showReminder, 2000);
+            });
+
+            function shouldShowReminder() {
+                return true;
+            }
+
+            function showReminder() {
+                if (document.querySelector(".reminder-popup")) return;
+                if (!shouldShowReminder()) return;
+
+                const message = getRandomReminder();
+
+                const popup = document.createElement("div");
+                popup.classList.add("reminder-popup", "centered");
+                popup.innerHTML = `
+                    <span>${message}</span>
+                    <button class="reminder-close">✖︎</button>
+                    `;
+
+                document.body.appendChild(popup);
+                localStorage.setItem("lastReminderTime", Date.now());
+
+                setTimeout(() => popup.classList.add("show"), 50);
+
+                // move to header after 5sec
+                setTimeout(() => {
+                    popup.classList.remove("centered");
+                    popup.classList.add("docked");
+                }, 5000);
+
+                // close manually
+                popup.querySelector(".reminder-close").addEventListener("click", () => {
+                    popup.style.opacity = "0";
+                    popup.style.transform = "scale(0.8)";
+                    setTimeout(() => popup.remove(), 300);
+                });
+
+            }
+
+            // ------ CAPYBARA INTERACTION ------
+
+            const capy = document.querySelector(".capybara");
+            const hearts = document.querySelector(".hearts");
+
+            capy.addEventListener("click", () => {
+                hearts.classList.add("show");
+
+                setTimeout(() => {
+                    hearts.classList.remove("show");
+                }, 1200);
+            });
+
+            // ------ SNAKE GAME ------
+
+            const canvas = document.getElementById("snakeGame");
+            const ctx = canvas.getContext("2d");
+
+            let grid = 10;
+            let snake = [];
+            let apple = {};
+            let dx = grid;
+            let dy = 0;
+            let count = 0;
+
+            function initCanvas(resize = false) {
+            
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+
+                snake = [{
+                    x: Math.floor(canvas.width / 2 / grid) * grid,
+                    y: Math.floor(canvas.height / 2 / grid) * grid
+                    }];
+                    dx = grid;
+                    dy = 0;
+
+                    spawnApple();
+                }
+            
+
+            function spawnApple() {
+                apple.x = Math.floor(Math.random() * (canvas.width / grid)) * grid;
+                apple.y = Math.floor(Math.random() * (canvas.height / grid)) * grid;
+            }
+
+            document.addEventListener("keydown", e => {
+                switch(e.key) {
+                    case "ArrowUp":
+                        if (dy === 0) { dx = 0; dy = -grid; } break;
+                    case "ArrowDown":
+                        if (dy === 0) { dx = 0; dy = grid; } break;
+                    case "ArrowLeft": 
+                        if (dx === 0) { dx = -grid; dy = 0; } break;
+                    case "ArrowRight": 
+                        if (dx === 0) { dx = grid; dy = 0; } break;
+                    }
+            });
+
+            window.addEventListener("resize", () => {
+                initCanvas(true);
+            });
+
+            function loop() {
+                requestAnimationFrame(loop);
+
+                if (++count < 12) return;
+                count = 0;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const head = {
+                    x: snake[0].x + dx,
+                    y: snake[0].y + dy
+                };
+
+                // wall collision reset:
+                if (
+                    head.x < 0 || head.x >= canvas.width ||
+                    head.y < 0 || head.y >= canvas.height
+                ) {
+                    initCanvas();
+                    return;
+                }
+
+                snake.unshift(head);
+
+                // apple collision:
+
+                if (head.x === apple.x && head.y === apple.y) {
+                    spawnApple();
+                } else {
+                    snake.pop();
+                }
+
+                // self collision
+                for (let i = 1; i < snake.length; i++) {
+                    if (head.x === snake[i].x && head.y === snake[i].y) {
+                        initCanvas ();
+                        return;
+                    }
+                }
+
+                const styles = getComputedStyle(document.body);
+
+                const snakeColor = styles.getPropertyValue("--snake-color").trim();
+                const appleColor = styles.getPropertyValue("--apple-color").trim();
+
+                // draw apple:
+
+                ctx.fillStyle = appleColor;
+                ctx.fillRect(apple.x, apple.y, grid, grid);
+
+                // draw snake:
+
+                ctx.fillStyle = snakeColor;
+                snake.forEach(segment => {
+                    ctx.fillRect(segment.x, segment.y, grid, grid);
+                });
+
+            }
+
+            initCanvas();
+            requestAnimationFrame(loop);
+
+        </script>
+
+</body>
+
+</html>
